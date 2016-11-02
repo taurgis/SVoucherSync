@@ -1,5 +1,5 @@
 {
-  "name": "Sanoma Voucher Socket",
+  "name": "sanomavouchersocket",
   "version": "0.0.1",
   "description": "Socket application for the Sanoma Voucher Scanner",
   "dependencies": {
