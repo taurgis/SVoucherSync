@@ -1,13 +1,27 @@
 {
-    "name": "sanomavouchersocket",
-    "version": "0.0.1",
-    "description": "Socket application for the Sanoma Voucher Scanner",
-    "dependencies": {
-        "express": "4.10.2",
-        "socket.io": "1.5.1"
-    },
-    "engines": {
-        "node": "6.9.1",
-        "npm": "4.0.1"
-    }
+  "name": "sanomavouchersocket",
+  "version": "0.0.1",
+  "description": "Socket application for the Sanoma Voucher Scanner",
+  "dependencies": {
+    "express": "4.10.2",
+    "socket.io": "1.5.1"
+  },
+  "engines": {
+    "node": "6.9.1",
+    "npm": "4.0.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taurgis/SVoucherSync.git"
+  },
+  "author": "Thomas Theunen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taurgis/SVoucherSync/issues"
+  },
+  "homepage": "https://github.com/taurgis/SVoucherSync#readme"
 }
