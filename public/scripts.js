@@ -53,15 +53,16 @@ function createScansPerHourChart() {
                 }
             }
             var dataAsArray = [];
-
+            hoursToShow = hoursToShow.sort(sortNumber);
             for (var i = 0; i < hoursToShow.length; i++) {
                 dataAsArray.push(scansPerHour[hoursToShow[i]]);
             }
 
             if (scansPerHourChart === undefined) {
-                scansPerHourChart = drawChart(document.getElementById("myChart"), hoursToShow.sort(), dataAsArray);
+                scansPerHourChart = drawChart(document.getElementById("myChart"), hoursToShow, dataAsArray);
             } else {
                 scansPerHourChart.data.datasets[0].data = dataAsArray;
+                scansPerHourChart.data.labels = hoursToShow;
                 scansPerHourChart.update();
             }
         });
@@ -89,15 +90,16 @@ function createScansPerDayChart() {
                 }
             }
             var dataAsArray = [];
-
+            daysToShow = daysToShow.sort(sortNumber)
             for (var i = 0; i < daysToShow.length; i++) {
                 dataAsArray.push(scansPerDay[daysToShow[i]]);
             }
 
             if (scansPerDayChart === undefined) {
-                scansPerDayChart = drawPieChart(document.getElementById("myPieChart"), daysToShow.sort(), dataAsArray);
+                scansPerDayChart = drawPieChart(document.getElementById("myPieChart"), daysToShow, dataAsArray);
             } else {
                 scansPerDayChart.data.datasets[0].data = dataAsArray;
+                scansPerDayChart.data.labels = daysToShow;
                 scansPerDayChart.update();
             }
         });
@@ -166,4 +168,8 @@ function drawPieChart(element, labels, data) {
             }]
         }
     });
+}
+
+function sortNumber(a, b) {
+    return a - b;
 }
