@@ -42,14 +42,16 @@ function createScansPerHourChart() {
                 var dateScanned = new Date(row.lasttimescanned);
                 var hour = dateScanned.getHours();
 
-                if (hoursToShow.indexOf(hour) < 0) {
-                    hoursToShow.push(hour);
-                }
+                if (new Date().toDateString() === dateScanned.toDateString()) {
+                    if (hoursToShow.indexOf(hour) < 0) {
+                        hoursToShow.push(hour);
+                    }
 
-                if (scansPerHour[hour]) {
-                    scansPerHour[hour] += 1;
-                } else {
-                    scansPerHour[hour] = 1;
+                    if (scansPerHour[hour]) {
+                        scansPerHour[hour] += 1;
+                    } else {
+                        scansPerHour[hour] = 1;
+                    }
                 }
             }
             var dataAsArray = [];
