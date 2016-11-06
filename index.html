@@ -22,18 +22,38 @@
         #messages li:nth-child(odd) {
             background: #eee;
         }
+
+        form {
+            padding: 3px;
+            width: 100%;
+        }
+
+        form input {
+            border: 1 #36A2EB;
+            padding: 10px;
+            width: 90%;
+            margin-right: .5%;
+        }
+
+        form button {
+            width: 9%;
+            border: none;
+            padding: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div class="row">
-        <div class="col-xs-6 col-md-4">
+        <div class="col-xs-6 col-md-6">
             <canvas id="myChart"></canvas>
         </div>
-        <div class="col-xs-6 col-md-4">
+        <div class="col-xs-6 col-md-6">
             <canvas id="myPieChart"></canvas>
         </div>
-        <div class="col-xs-6 col-md-4" style="height: 300px; overflow-y: scroll;">
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-12" style="height: 300px; overflow-y: scroll;">
             <ul id="messages"></ul>
         </div>
     </div>
