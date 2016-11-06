@@ -9,6 +9,7 @@ if (window.openDatabase) {
 } else {};
 var scansPerHourChart = undefined;
 var scansPerDayChart = undefined;
+var scansPerPrefixChart  = undefined;
 createScansPerHourChart();
 createScansPerDayChart();
 
@@ -35,16 +36,31 @@ function insertScan(code) {
 function createScansPerHourChart() {
     var hoursToShow = [];
     var scansPerHour = {};
+
+    var prefixes = [];
+    var scansPerPrefix = {};
+
     mydb.transaction(function(t) {
         t.executeSql("select * from scanned_tickets", [], function(transaction, sqlResult) {
             for (var rowIndex = 0; rowIndex < sqlResult.rows.length; rowIndex++) {
                 var row = sqlResult.rows[rowIndex];
                 var dateScanned = new Date(row.lasttimescanned);
                 var hour = dateScanned.getHours();
+                var codePrefix = (row.id.match('(LWF2016)([A-Z]*)')) ? row.id.match('(LWF2016)([A-Z]*)')[0] : 'none';
 
                 if (new Date().toDateString() === dateScanned.toDateString()) {
                     if (hoursToShow.indexOf(hour) < 0) {
                         hoursToShow.push(hour);
+                    }
+
+                    if (prefixes.indexOf(codePrefix) < 0) {
+                        prefixes.push(codePrefix);
+                    }
+
+                    if (scansPerPrefix[codePrefix]) {
+                        scansPerPrefix[codePrefix] += 1
+                    } else {
+                        scansPerPrefix[codePrefix] = 1;
                     }
 
                     if (scansPerHour[hour]) {
@@ -54,6 +70,7 @@ function createScansPerHourChart() {
                     }
                 }
             }
+
             var dataAsArray = [];
             hoursToShow = hoursToShow.sort(sortNumber);
             for (var i = 0; i < hoursToShow.length; i++) {
@@ -61,12 +78,27 @@ function createScansPerHourChart() {
             }
 
             if (scansPerHourChart === undefined) {
-                scansPerHourChart = drawChart(document.getElementById("myChart"), hoursToShow, dataAsArray);
+                scansPerHourChart = drawChart(document.getElementById("myChart"), hoursToShow, dataAsArray, '# of scans per hour');
             } else {
                 scansPerHourChart.data.datasets[0].data = dataAsArray;
                 scansPerHourChart.data.labels = hoursToShow;
                 scansPerHourChart.update();
             }
+
+            var dataAsArray2 = [];
+            prefixes = prefixes.sort(sortNumber);
+            for (var i = 0; i < prefixes.length; i++) {
+                dataAsArray2.push(scansPerPrefix[prefixes[i]]);
+            }
+
+            if (scansPerPrefixChart === undefined) {
+                scansPerPrefixChart = drawChart(document.getElementById("myTypesChart"), prefixes, dataAsArray2, '# of scans per prefix');
+            } else {
+                scansPerPrefixChart.data.datasets[0].data = dataAsArray2;
+                scansPerPrefixChart.data.labels = prefixes;
+                scansPerPrefixChart.update();
+            }
+
         });
     });
 };
@@ -108,14 +140,14 @@ function createScansPerDayChart() {
     });
 }
 
-function drawChart(element, labels, data) {
+function drawChart(element, labels, data, label) {
     var ctx = element;
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
-                label: '# of scans per hour',
+                label: label,
                 data: data,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',

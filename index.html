@@ -45,11 +45,14 @@
 
 <body>
     <div class="row">
-        <div class="col-xs-6 col-md-6">
+        <div class="col-xs-4 col-md-4">
             <canvas id="myChart"></canvas>
         </div>
-        <div class="col-xs-6 col-md-6">
+        <div class="col-xs-4 col-md-4">
             <canvas id="myPieChart"></canvas>
+        </div>
+        <div class="col-xs-4 col-md-4">
+            <canvas id="myTypesChart"></canvas>
         </div>
     </div>
     <div class="row">
@@ -74,9 +77,11 @@
         $('form').submit(function() {
             socket.emit('codescan', $('#m').val());
             $('#m').val('');
+
             return false;
         });
         socket.on('codescan', function(msg) {
+            //alert(msg.match('(LWF2016)([A-Z]*)')[0]);
             $('#messages').prepend($('<li>').text(msg));
             insertScan(msg);
         });
